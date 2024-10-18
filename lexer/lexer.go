@@ -1,6 +1,8 @@
 package lexer
 
-import "github.com/YuneshShrestha/Interpretor/token"
+import (
+	"github.com/YuneshShrestha/Interpretor/token"
+)
 
 type Lexer struct {
 	input string
@@ -26,13 +28,14 @@ func (l *Lexer) readChar() {
 	}
 	l.position = l.readPosition
 	l.readPosition += 1
+
 }
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 	l.skipWhitespace()
 	switch l.ch {
 	case '=':
-		tok = newToken(token.ASSIGN, l.ch)
+		tok = l.makeTwoCharToken('=', token.EQ, token.ASSIGN)
 	case ';':
 		tok = newToken(token.SEMICOLON, l.ch)
 	case '(':
@@ -50,7 +53,7 @@ func (l *Lexer) NextToken() token.Token {
 	case '-':
 		tok = newToken(token.MINUS, l.ch)
 	case '!':
-		tok = newToken(token.BANG, l.ch)
+		tok = l.makeTwoCharToken('=', token.NOT_EQ, token.BANG)
 	case '/':
 		tok = newToken(token.SLASH, l.ch)
 	case '*':
@@ -59,7 +62,7 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.LT, l.ch)
 	case '>':
 		tok = newToken(token.GT, l.ch)
-	
+
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
@@ -78,6 +81,22 @@ func (l *Lexer) NextToken() token.Token {
 	}
 	l.readChar()
 	return tok
+}
+func (l *Lexer) makeTwoCharToken(expectedChar byte, tokenType token.TokenType, defaultTokenType token.TokenType) token.Token {
+	if l.peekChar() == expectedChar {
+		ch := l.ch
+		l.readChar()
+		return token.Token{Type: tokenType, Literal: string(ch) + string(l.ch)}
+	} else {
+		return token.Token{Type: defaultTokenType, Literal: string(l.ch)}
+	}
+}
+func (l *Lexer) peekChar() byte {
+	if l.readPosition >= len(l.input) {
+		return 0
+	} else {
+		return l.input[l.readPosition]
+	}
 }
 func (l *Lexer) readNumber() string {
 	position := l.position
