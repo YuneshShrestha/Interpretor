@@ -55,6 +55,8 @@ type LetStatement struct {
 
 }
 
+func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal }
+
 // statementNode() lets the AST know this is a statement node.
 func (ls *LetStatement) statementNode() {}
 
