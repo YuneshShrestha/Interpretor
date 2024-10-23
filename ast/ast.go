@@ -70,3 +70,13 @@ func (i *Identifier) expressionNode() {}
 
 // TokenLiteral() allows you to get the literal value of the token (in this case, the string "let").
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
+
+type ReturnStatement struct {
+	Token       token.Token // token.RETURN token
+	ReturnValue Expression  // 6*7, 10, x, etc.
+}
+
+func (rs *ReturnStatement) statementNode() {}
+func (rs *ReturnStatement) TokenLiteral() string {
+	return rs.Token.Literal
+}
