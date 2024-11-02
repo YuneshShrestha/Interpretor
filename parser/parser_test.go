@@ -245,7 +245,7 @@ func TestOperatorPrecedenceParsing(t *testing.T) {
 		input    string
 		expected string
 	}{
-		{"-a * b;", "((-a) * b)"},
+		{"a + b + c;", "((a + b) + c)"},
 
 	}
 	for _, tt := range tests {
