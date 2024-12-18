@@ -105,8 +105,7 @@ func (p *Parser) ParseProgram() *ast.Program {
 		p.nextToken()
 	}
 
-	fmt.Printf("Program: %s", program)
-
+	
 	return program
 }
 func (p *Parser) parseStatement() ast.Statement {
