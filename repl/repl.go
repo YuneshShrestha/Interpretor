@@ -8,14 +8,16 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/YuneshShrestha/Interpretor/token"
+	"github.com/YuneshShrestha/Interpretor/parser"
 
 	"github.com/YuneshShrestha/Interpretor/lexer"
 )
 
 const PROMPT = ">> "
 
-/* : read from the input source until encountering a newline, take
+/*
+	: read from the input source until encountering a newline, take
+
 the just read line and pass it to an instance of our lexer and finally print all the tokens the lexer
 gives us until we encounter EOF.
 */
@@ -30,9 +32,19 @@ func Start(in io.Reader, out io.Writer) {
 		}
 		line := scanner.Text() // take the just read line
 		l := lexer.New(line)
+		p := parser.New(l)
+		program := p.ParseProgram()
 
-		for tok := l.NextToken(); tok.Type != token.EOF; tok = l.NextToken() {
-			fmt.Printf("%+v\n", tok)
+		if len(p.Errors()) != 0 {
+			printParserErrors(out, p.Errors())
+			continue
 		}
+		io.WriteString(out, program.String())
+		io.WriteString(out, "\n")
+	}
+}
+func printParserErrors(out io.Writer, errors []string) {
+	for _, msg := range errors {
+		io.WriteString(out, "\t"+msg+"\n")
 	}
 }
