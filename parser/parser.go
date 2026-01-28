@@ -10,6 +10,25 @@ import (
 	"github.com/YuneshShrestha/Interpretor/lexer"
 )
 
+// Eg1: 9 - 7 * 5
+/*
+        -
+       / \
+      9   *
+         / \
+        7   5
+*/
+
+// Eg2: 9-7+5
+/*
+	  +
+     / \
+    -   5
+   / \
+  9   7
+
+*/
+
 type Parser struct {
 	l         *lexer.Lexer
 	errors    []string

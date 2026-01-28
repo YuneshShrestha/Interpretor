@@ -9,6 +9,7 @@ import (
 	"io"
 
 	"github.com/YuneshShrestha/Interpretor/evaluator"
+	"github.com/YuneshShrestha/Interpretor/object"
 	"github.com/YuneshShrestha/Interpretor/parser"
 
 	"github.com/YuneshShrestha/Interpretor/lexer"
@@ -24,7 +25,8 @@ gives us until we encounter EOF.
 */
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in) // scanner is a bufio.Scanner that reads from the input source
-
+	env := object.NewEnvironment()
+	
 	for {
 		fmt.Print(PROMPT)
 		scanned := scanner.Scan() // read from the input source until encountering a newline
@@ -40,7 +42,7 @@ func Start(in io.Reader, out io.Writer) {
 			printParserErrors(out, p.Errors())
 			continue
 		}
-		evaluated := evaluator.Eval(program)
+		evaluated := evaluator.Eval(program, env)
 		if evaluated != nil {
 			io.WriteString(out, evaluated.Inspect())
 			io.WriteString(out, "\n")
