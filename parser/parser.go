@@ -12,11 +12,11 @@ import (
 
 // Eg1: 9 - 7 * 5
 /*
-        -
-       / \
-      9   *
-         / \
-        7   5
+     -
+    / \
+   9   *
+      / \
+     7   5
 */
 
 // Eg2: 9-7+5
@@ -27,6 +27,28 @@ import (
    / \
   9   7
 
+*/
+
+/*
+Takes tokens and builds the AST
+
+Uses:
+
+curToken → current token
+
+peekToken → next token (lookahead)
+
+Uses operator precedence so math works correctly
+
+* before +
+
+Uses:
+
+prefix functions → start expressions (5, -x, !true)
+
+infix functions → join expressions (+, *, ==)
+
+This style is called a Pratt parser
 */
 
 type Parser struct {
@@ -124,7 +146,6 @@ func (p *Parser) ParseProgram() *ast.Program {
 		p.nextToken()
 	}
 
-	
 	return program
 }
 func (p *Parser) parseStatement() ast.Statement {

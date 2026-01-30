@@ -16,6 +16,29 @@
 
 
 */
+
+/*
+AST is a tree form of code
+
+It shows structure, not exact text
+
+Root node is Program
+
+Two main types:
+
+Statement → does something (let, return)
+
+Expression → gives a value (5, x+1, true)
+
+Examples:
+
+let x = 5; → LetStatement
+
+5 + 3 → InfixExpression
+
+fn(x){ x+1 } → FunctionLiteral
+
+*/
 package ast
 
 import (
