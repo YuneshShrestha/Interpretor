@@ -55,6 +55,9 @@ const (
 	LBRACE = "{"
 	RBRACE = "}"
 
+	// Special characters
+	COLON = ":"
+
 	// KEYWORDS
 	FUNCTION = "FUNCTION"
 	LET      = "LET"
